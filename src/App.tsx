@@ -1,12 +1,10 @@
 import React from 'react';
+import Navigation from "./components/Navigation/Navigation";
 
 function App() {
   return (
-    <div>
-      <header>header</header>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+    <div className="bg-white dark:bg-black">
+      <Navigation />
     </div>
   );
 }
