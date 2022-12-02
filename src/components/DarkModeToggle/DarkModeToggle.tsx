@@ -7,14 +7,12 @@ export default function DarkModeToggle() {
   const [ darkMode, setDarkMode ] = useState(colorTheme === 'light');
 
   const toggleDarkMode = (checked:boolean) => {
-    console.log(colorTheme)
-
     setTheme(colorTheme);
     setDarkMode(checked);
   };
 
   return (
-    <div className="flex items-center justify-end">
+    <div className='flex items-center justify-end'>
       <div className='text-gray-800 dark:text-gray-300 mr-2'>{ darkMode ? 'Dark' : 'Light' }</div>
       <div>
         <DarkModeSwitch
