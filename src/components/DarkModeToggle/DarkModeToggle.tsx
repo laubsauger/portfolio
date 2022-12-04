@@ -1,24 +1,22 @@
-import useDarkMode from "../../hooks/useDarkMode";
-import {useState} from "react";
+import {useCallback, useContext} from "react";
 import {DarkModeSwitch} from "react-toggle-dark-mode";
+import {ThemeContext} from "../../contexts/ThemeContext";
 
 export default function DarkModeToggle() {
-  const { colorTheme, setTheme } = useDarkMode();
-  const [ darkMode, setDarkMode ] = useState(colorTheme === 'light');
+  const { colorMode, setColorMode } = useContext(ThemeContext);
 
-  const toggleDarkMode = (checked:boolean) => {
-    setTheme(colorTheme);
-    setDarkMode(checked);
-  };
+  const toggleDarkMode = useCallback((checked:boolean) => {
+    setColorMode(checked ? 'dark' : 'light');
+  }, [ setColorMode ]);
 
   return (
-    <div className='flex items-center justify-end'>
-      <div className='text-gray-800 dark:text-gray-300 mr-2'>{ darkMode ? 'Dark' : 'Light' }</div>
+    <div className='flex items-center justify-end cursor-pointer'>
+      <div className='text-gray-800 dark:text-gray-300 mr-2'>{ colorMode }</div>
       <div>
         <DarkModeSwitch
-          checked={darkMode}
+          checked={colorMode === 'dark'}
           onChange={toggleDarkMode}
-          size={40}
+          size={36}
         />
       </div>
     </div>
