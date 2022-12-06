@@ -10,15 +10,17 @@ export default function DarkModeToggle() {
   }, [ setColorMode ]);
 
   return (
-    <div className='flex items-center justify-end cursor-pointer'>
+    <div className='flex items-center justify-end cursor-pointer'
+         onClick={() => toggleDarkMode(colorMode !== 'dark')}
+    >
       <div className='text-gray-800 dark:text-gray-300 mr-2'>{ colorMode }</div>
       <div>
         <DarkModeSwitch
           checked={colorMode === 'dark'}
-          onChange={toggleDarkMode}
+          onChange={() => {}}
           size={36}
         />
       </div>
     </div>
-  )
-}
+  );
+};
