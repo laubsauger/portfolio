@@ -1,7 +1,7 @@
-import React, {lazy, Suspense} from 'react';
-import {Routes, Route} from 'react-router-dom';
-import Navigation from './components/Navigation/Navigation';
+import {Route, Routes} from "react-router-dom";
+import React, {lazy, Suspense} from "react";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
+import Default from "./layouts/Default/Default";
 
 const Home = lazy(() => import('./pages/Home/Home'));
 const Projects = lazy(() => import('./pages/Projects/Projects'));
@@ -9,39 +9,41 @@ const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
 function App() {
   return (
-    <div className="bg-white dark:bg-black">
-      <Navigation />
-
-      <Routes>
+    <Routes>
+      <Route path="/" element={<Default />}>
         <Route
-          path='/'
+          index
           element={
             <Suspense fallback={<LoadingSpinner />}>
               <Home />
             </Suspense>
           }
         />
+      </Route>
 
+      <Route path="/projects" element={<Default />}>
         <Route
-          path='/projects'
+          index
           element={
             <Suspense fallback={<LoadingSpinner />}>
               <Projects />
             </Suspense>
           }
         />
+      </Route>
 
-        {/* NOT FOUND catch all */}
+      {/* NOT FOUND catch all */}
+      <Route path="*" element={<Default />}>
         <Route
-          path='*'
+          index
           element={
             <Suspense fallback={<LoadingSpinner />}>
               <NotFound />
             </Suspense>
           }
         />
-      </Routes>
-    </div>
+      </Route>
+    </Routes>
   );
 }
 
