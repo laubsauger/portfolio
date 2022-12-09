@@ -18,7 +18,7 @@ const Wrapper: React.FC<Props> = ({children}) => {
   );
 };
 
-const customRender = (ui:any, options?:any) => {
+const customRender = (ui:ReactElement, options?:any) => {
   render(ui, { wrapper: Wrapper, ...options })
 };
 

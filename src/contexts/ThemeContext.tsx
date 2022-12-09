@@ -9,9 +9,9 @@ function getInitialColorMode():ColorMode {
   }
 
   // OS preference
-  const mql = window.matchMedia('(prefers-color-scheme: dark)');
+  const mql = window.matchMedia('(prefers-color-scheme: light)');
   if (mql.matches) {
-    return mql.matches ? 'dark' : 'light';
+    return 'light';
   }
 
   // default

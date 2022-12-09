@@ -2,26 +2,16 @@ import * as React from 'react';
 import {screen} from '@testing-library/react';
 import {render} from '../../customTestRender';
 import userEvent from '@testing-library/user-event';
-
+import matchMedia from "../../matchMedia.mock";
 import DarkModeToggle from './DarkModeToggle';
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: (query:string) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(), // Deprecated
-    removeListener: jest.fn(), // Deprecated
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  }),
-});
-
 describe('DarkModeToggle', () => {
-  it('initializes as dark by default', async () => {
-    await window.localStorage.clear();
+  afterEach(() => {
+    matchMedia.clear();
+  });
+
+  it('initializes as "dark" by default',  () => {
+    matchMedia.useMediaQuery('');
 
     render(<DarkModeToggle/>);
 
@@ -29,10 +19,24 @@ describe('DarkModeToggle', () => {
     expect(isDark).toBeTruthy();
   });
 
-  // it('uses OS setting/mq when preference is "')
+  it('initializes as "light" if OS preference/media query is set', () => {
+    matchMedia.useMediaQuery('(prefers-color-scheme: light)');
 
-  it('initializes with localStorage "light" setting if present', async () => {
-    await window.localStorage.clear();
+    render(<DarkModeToggle/>);
+
+    const isDark = screen.queryByText('dark');
+    expect(isDark).toBeFalsy();
+  });
+
+  it('initializes as "dark" if OS preference/media query is set', () => {
+    matchMedia.useMediaQuery('(prefers-color-scheme: dark)');
+    render(<DarkModeToggle/>);
+
+    const isDark = screen.queryByText('dark');
+    expect(isDark).toBeTruthy();
+  });
+
+  it('initializes with localStorage "light" setting if present', () => {
     window.localStorage.setItem('color-mode', 'light');
 
     render(<DarkModeToggle/>);
@@ -41,8 +45,7 @@ describe('DarkModeToggle', () => {
     expect(isDark).toBeFalsy();
   });
 
-  it('initializes with localStorage "dark" setting if present', async () => {
-    await window.localStorage.clear();
+  it('initializes with localStorage "dark" setting if present', () => {
     window.localStorage.setItem('color-mode', 'dark');
 
     render(<DarkModeToggle/>);
@@ -51,9 +54,23 @@ describe('DarkModeToggle', () => {
     expect(isDark).toBeTruthy();
   });
 
+  it('prefers localStorage setting over OS/mq', () => {
+    window.localStorage.setItem('color-mode', 'dark');
+
+    const mediaQuery = '(prefers-color-scheme: light)';
+    matchMedia.useMediaQuery(mediaQuery);
+
+    render(<DarkModeToggle/>);
+
+    const isDark = screen.queryByText('dark');
+    expect(isDark).toBeTruthy();
+  });
+
   it('toggles mode on button click', async () => {
-    window.localStorage.clear();
-    const user = userEvent.setup()
+    const mediaQuery = '(prefers-color-scheme: dark)';
+    matchMedia.useMediaQuery(mediaQuery);
+
+    const user = userEvent.setup();
 
     render(<DarkModeToggle/>);
 
@@ -75,9 +92,7 @@ describe('DarkModeToggle', () => {
     expect(isDarkAgain).toBeTruthy();
   });
 
-  it('persists current mode to localStorage', async () => {
-    await window.localStorage.clear();
-
+  it('persists current mode to localStorage', () => {
     const existingPersistedColorMode = window.localStorage.getItem('color-mode');
     expect(existingPersistedColorMode).toBeNull();
 
@@ -85,11 +100,11 @@ describe('DarkModeToggle', () => {
 
     const savedColorMode = window.localStorage.getItem('color-mode');
     expect(savedColorMode).toEqual('dark');
+
+    const isDark = screen.queryByText('dark');
+    expect(isDark).toBeTruthy();
   });
 });
-
-// @todo: add testcase for when localstorage is not set but the media query is doing it's thing
-
 
 
 
