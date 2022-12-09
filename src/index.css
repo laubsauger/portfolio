@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* theme switch - global color transition for all elements */
+body * {
+    transition: background, color, outline-color 500ms;
+}

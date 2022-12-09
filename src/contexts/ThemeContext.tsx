@@ -22,14 +22,14 @@ type Props = {
   children?: React.ReactNode;
 }
 
-type ContextType = {
-  colorMode: ColorMode,
-  setColorMode: (val: ColorMode) => void
-}
-
 type ColorMode = 'light' | 'dark';
 
-export const ThemeContext = createContext<ContextType>({
+interface ThemeContextInterface {
+  colorMode: ColorMode;
+  setColorMode: (val: ColorMode) => void;
+}
+
+export const ThemeContext = createContext<ThemeContextInterface>({
   colorMode: 'dark',
   setColorMode: () => {}
 });
