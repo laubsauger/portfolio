@@ -19,7 +19,7 @@ const Wrapper: React.FC<Props> = ({children}) => {
 };
 
 const customRender = (ui:ReactElement, options?:any) => {
-  render(ui, { wrapper: Wrapper, ...options })
+  return render(ui, { wrapper: Wrapper, ...options })
 };
 
 export * from "@testing-library/react";

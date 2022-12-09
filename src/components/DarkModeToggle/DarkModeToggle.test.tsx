@@ -10,6 +10,11 @@ describe('DarkModeToggle', () => {
     matchMedia.clear();
   });
 
+  it('renders', () => {
+    const { asFragment } = render(<DarkModeToggle />);
+    expect(asFragment()).toMatchSnapshot();
+  });
+
   it('initializes as "dark" by default',  () => {
     matchMedia.useMediaQuery('');
 
@@ -56,7 +61,6 @@ describe('DarkModeToggle', () => {
 
   it('prefers localStorage setting over OS/mq', () => {
     window.localStorage.setItem('color-mode', 'dark');
-
     const mediaQuery = '(prefers-color-scheme: light)';
     matchMedia.useMediaQuery(mediaQuery);
 
